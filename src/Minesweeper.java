@@ -24,7 +24,8 @@ public class Minesweeper{
         }
         maze=new int[dimension][dimension];
         visibleMaze=new char[dimension][dimension];
-        Arrays.fill(visibleMaze, 'X');
+        for(char mazeRow[]:visibleMaze)
+            Arrays.fill(mazeRow, 'X');
 
         Random rand=new Random();
         int mineLoc[]=new int[mineCount];
@@ -61,6 +62,15 @@ public class Minesweeper{
         else if(maze[row][col]==0)
             revealMaze(row, col);
         return this.checkCompleteness();
+    }
+
+    public void showCurrentGame(){
+        for (int i = 0; i < dimension; i++) {
+            for (int j = 0; j < dimension; j++) {
+                System.out.print(visibleMaze[i][j]+" ");
+            }
+            System.out.println();
+        }
     }
 
     private void setMines(int[] mineLoc){
@@ -117,7 +127,7 @@ public class Minesweeper{
     }
 
     private void revealMaze(int row, int col){
-        if(row>=dimension || col>=dimension || row<0 || col<0 || maze[row][col]==-1)
+        if(row>=dimension || col>=dimension || row<0 || col<0 || maze[row][col]==-1 || visibleMaze[row][col]!='X')
             return;
         if(maze[row][col]==0){
             visibleMaze[row][col]='0';
@@ -127,6 +137,8 @@ public class Minesweeper{
             revealMaze(row, col+1);
             revealMaze(row+1, col+1);
             revealMaze(row-1, col-1);
+            revealMaze(row+1, col-1);
+            revealMaze(row-1, col+1);
         }
         else if(maze[row][col]>0)
             visibleMaze[row][col]=(char)(maze[row][col]+'0');
@@ -135,7 +147,9 @@ public class Minesweeper{
     private int checkCompleteness(){
         for(int i=0;i<dimension;i++){
             for(int j=0;j<dimension;j++){
-                if(visibleMaze[i][j]!='X')
+                if(maze[i][j]==-1)
+                    continue;
+                else if(visibleMaze[i][j]!='X')
                     return 0;
             }
         }

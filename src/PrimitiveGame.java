@@ -15,6 +15,7 @@ public class PrimitiveGame {
     private void playGame(Minesweeper minesweeper) throws IOException{
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         for(;;){
+            minesweeper.showCurrentGame();
             System.out.println("Enter Row and Col:");
             int row=Integer.parseInt(br.readLine());
             int col=Integer.parseInt(br.readLine());
